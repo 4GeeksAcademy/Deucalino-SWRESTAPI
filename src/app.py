@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Characters, Planet, Favorites
 #from models import Person
 
 app = Flask(__name__)
@@ -42,6 +42,52 @@ def handle_hello():
     response_body = {
         "msg": "Hello, this is your GET /user response "
     }
+
+    return jsonify(response_body), 200
+@app.route('/characters', methods=['GET'])
+def handle_characters():
+  characters = Characters.query.all()
+  result = []
+  for characters in characters:
+    result.append(characters.serialize())
+  return jsonify(result), 200
+@app.route('/characters/<int:position>', methods=['GET'])
+def handle_character():
+   return jsonify(db.characters)
+@app.route('/planets', methods=['GET'])
+def handle_planets():
+    planet = Planet.query.all()
+    result = []
+    for planet in planet:
+     result.append(planet.serialize())
+    return jsonify(result), 200
+@app.route('/planets/<int:position>', methods=['GET'])
+def handle_planet():
+   return jsonify(db.planet)
+@app.route('user/favorites', methods=['GET'])
+def get_user_favorites():
+    if request.method=='GET':
+       favorites=[]
+       db_result=Favorites.query.all()
+       for favorite in db_result:
+          favorites.append(favorite.serialize())
+       return jsonify(favorites),200
+       return "Invalid method",404
+
+    response_body = {
+        "msg": "Hello, this is your GET /user response "
+    }
+@app.route('/favorites', methods=['POST'])
+def add_favorites():
+    if request.method=='POST':
+       print(request.get_json())
+       return jsonify([]),200
+
+    response_body = {
+        "msg": "Hello, this is your GET /user response "
+    }
+
+    return jsonify(response_body), 200
 
     return jsonify(response_body), 200
 

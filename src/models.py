@@ -26,6 +26,18 @@ class Characters(db.Model):
     name = db.Column(db.String(250))
     homeworld = db.Column(db.String(250))
     url = db.Column(db.String(250), nullable=False)
+    def __repr__(self):
+        return '<Characters %r>' % self.name
+
+    def serialize(self):
+        return {
+            "uid": self.uid,
+            "name": self.name,
+            "homeworld":self.homeworld,
+            "url":self.url
+
+            # do not serialize the password, its a security breach
+        }
 
 class Planet(db.Model):
     __tablename__='planet'
@@ -40,3 +52,16 @@ class Favorites(db.Model):
     bestplanet_uid=db.Column(db.Integer, db.ForeignKey('planet.planet_uid'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship(User)
+    def __repr__(self):
+        return '<Favorites %r>' % self.user
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "bestcharacter_uid":self.  bestcharacter_uid,
+            " bestplanet_uid":self. bestplanet_uid,
+            "user_id":self.user_id,
+            "name": self.name,
+            "user":self.user
+            # do not serialize the password, its a security breach
+        }
