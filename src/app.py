@@ -89,7 +89,16 @@ def add_favorites():
 
     return jsonify(response_body), 200
 
-    return jsonify(response_body), 200
+@app.route('/favorite/characters/<int:position>', methods=['DELETE'])
+def delete_fav_characters(position):
+    db.characters.remove(db.characters[position])
+    print("This is the position to delete: ",position)
+    return jsonify(db.characters)
+@app.route('/favorite/planet/<int:position>', methods=['DELETE'])
+def delete_fav_planet(position):
+    db.planet.remove(db.planet[position])
+    print("This is the position to delete: ",position)
+    return jsonify(db.planet)
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
