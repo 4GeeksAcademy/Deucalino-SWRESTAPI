@@ -64,7 +64,7 @@ def handle_planets():
 @app.route('/planets/<int:position>', methods=['GET'])
 def handle_planet():
    return jsonify(db.planet)
-@app.route('user/favorites', methods=['GET'])
+@app.route('/user/favorites', methods=['GET'])
 def get_user_favorites():
     if request.method=='GET':
        favorites=[]
@@ -77,7 +77,7 @@ def get_user_favorites():
     response_body = {
         "msg": "Hello, this is your GET /user response "
     }
-@app.route('/favorites', methods=['POST'])
+@app.route('/user/favorites', methods=['POST'])
 def add_favorites():
     if request.method=='POST':
        print(request.get_json())
