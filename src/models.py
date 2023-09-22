@@ -43,15 +43,15 @@ class Characters(db.Model):
 
 class Planet(db.Model):
     __tablename__='planet'
-    planet_uid = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250))
     url = db.Column(db.String(250), nullable=False)
     def __repr__(self):
-        return '<Characters %r>' % self.planet_uid
+        return '<Planet %r>' % self.uid
 
     def serialize(self):
         return {
-            "uid": self.planet_uid,
+            "uid": self.uid,
             "name": self.name,
             "url":self.url
         }
@@ -59,17 +59,16 @@ class Planet(db.Model):
 class Favorites(db.Model):
     __tablename__='favorites'
     id=db.Column(db.Integer, primary_key=True)
-    bestcharacter_uid=db.Column(db.Integer,db.ForeignKey('characters.uid'))
-    bestplanet_uid=db.Column(db.Integer, db.ForeignKey('planet.planet_uid'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    character_uid=db.Column(db.Integer,db.ForeignKey('characters.uid'))
+    planet_uid=db.Column(db.Integer, db.ForeignKey('planet.uid'))
     def __repr__(self):
-        return '<Favorites %r>' % self.user
+        return '<Favorites %r>' % self.id
 
     def serialize(self):
         return {
             "id": self.id,
-            "bestcharacter_uid":self.  bestcharacter_uid,
-            " bestplanet_uid":self. bestplanet_uid,
+            "character_uid":self.  character_uid,
+            "planet_uid":self. planet_uid,
             "user_id":self.user_id,
-            "name": self.name,
         }
